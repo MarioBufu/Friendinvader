@@ -3,7 +3,8 @@ class Player {
   private float w,h;
   private PVector pos,vel;
   private int health;
-  private boolean dead = false;
+  private boolean dead, initMag = false;
+  private Mag mag;
   
   public Player()
   {
@@ -12,8 +13,17 @@ class Player {
     w = width*0.1;
     h = height*0.1;
     health = 100;
+    
   }
-  
+  public void initMag()
+  {
+    if(!initMag)
+    {
+      mag = new Mag(this);
+      mag.startTimer();
+      initMag = true;
+    }
+  }
   public void update()
   {
     if(dead)
@@ -54,9 +64,34 @@ class Player {
      fill(255);
      rect(pos.x,pos.y,w,map(health,0,100,0,h));
      
+     //draw bullets
+     mag.drawMag();
      
      //fill(0); 
      //text(""+health,pos.x,pos.y);
+  }
+  
+  public float getX()
+  {
+    return pos.x;
+  }
+  public float getY()
+  {
+    return pos.y;
+  }
+  
+  public boolean fireBullet()
+  {
+    if(mag.lenght() > 0)
+    {
+      mag.subtractBullet();
+      return true;
+    }
+    else
+    {
+      // nothing to do
+      return false;
+    }
   }
   
   public void colisionDetect(Bullet b)

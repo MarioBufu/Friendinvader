@@ -59,7 +59,8 @@ class Bullet
   public void sendToEnemy()
   {
     // send via bt pos and dir
-    sendBluetoothData((int)pos.x);
+    float scaledX = map(pos.x,0,width,0,500);
+    sendBluetoothData(scaledX);
   }
   
   public void bulletHit()
