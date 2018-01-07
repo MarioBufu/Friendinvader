@@ -10,6 +10,8 @@ import ketai.net.*;
 
 import oscP5.*;
 
+import android.view.*;
+
 KetaiBluetooth bt;
 String selectedDevice = "";//name of connected device -> use writeToDeviceName(String,byte[])
 KetaiList klist;
@@ -47,17 +49,15 @@ void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
 void setup()
-{  
+{
   sensor = new KetaiSensor(this);
   sensor.start();
   orientation(LANDSCAPE);
   p = new Player();
   acc = new PVector(0,0);
   
-  textSize(24);
-  
   // ingame button
-  backButton = new Button(0,height*0.1,"Back");
+  backButton = new Button(0,height*0.08,"Back");
   
   //main menu
   dodgeButton = new Button(width * 0.1 ,height * 0.2,"Dodge");
@@ -106,7 +106,6 @@ void draw()
         bullets[i].render();
         if(!bullets[i].hit)
           p.colisionDetect(bullets[i]);
-          //sendBluetoothData((int)bullets[i].pos.x);
         if(bullets[i].hit)
         {
           bullets[i] = bullets[bullets.length-1];
@@ -142,7 +141,7 @@ void mousePressed()
       }// connect
       else if(btStatus.buttonClicked(mouseX,mouseY))
       {
-        text(getBluetoothInformation(),0,height * 0.7);
+        btStatus.addText(getBluetoothInformation(),1000,100);
         println("\n\n"+getBluetoothInformation() + "\n");
       }// status
       else if(backButton.buttonClicked(mouseX,mouseY))
@@ -154,7 +153,16 @@ void mousePressed()
     {
       if(dodgeButton.buttonClicked(mouseX,mouseY))
       {
-        menu = false;
+        if(isConfiguring)
+        {
+          dodgeButton.addText("Please configure bluetooth",10,height-10);
+        }
+        else
+        {
+          dodgeButton.addText(null,0,0);
+          menu = false;
+          p.initMag();
+        }
       }
       else if(btButton.buttonClicked(mouseX,mouseY))
       {
@@ -169,42 +177,30 @@ void mousePressed()
   }
   else if(!p.dead)
   {
-    bullets = (Bullet[]) append(bullets,new Bullet(p));
-    sendBluetoothData((int)new Bullet(p).pos.x);
+    if(p.fireBullet())
+      {
+      bullets = (Bullet[]) append(bullets,new Bullet(p));
+      }
   }
-  /*
-  if(menu)
-  {
-    //rect(width * 0.1 ,height * 0.2,width * 0.14,-(height*0.075));
-    if(mouseX > width * 0.1 && mouseX < width * 0.1 + width * 0.14 && mouseY < height* 0.2 && mouseY > height* 0.2 - height*0.075)
-    {
-      menu = false;
-    }
-    //rect(width * 0.1 ,height * 0.3,width * 0.14,-(height*0.075));
-     if(mouseX > width * 0.1 && mouseX < width * 0.1 + width * 0.14 && mouseY < height* 0.2 && mouseY > height* 0.2 - height*0.075)
-    {
-      bt.discoverDevices();
-      KetaiKeyboard.toggle(this);
-    }
-  }
-  else if(!p.dead)
-  {
-  b = (Bullet[]) append(b,new Bullet(p));
-  //b = (Bullet[]) append(b,new Bullet(new PVector(random(width),0),new PVector(0,height*0.02)));
-  }
-  */
+}
+
+public void onBackPressed() 
+{
+  //back button action
+  //wip
+  println("Back button pressed");
 }
 
 public void keyPressed()
-{
-  if (key =='c')
+{/*wip
+  if (key == CODED) 
   {
-    //If we have not discovered any devices, try prior paired devices
-    if (bt.getDiscoveredDeviceNames().size() > 0)
-      klist = new KetaiList(this, bt.getDiscoveredDeviceNames());
-    else if (bt.getPairedDeviceNames().size() > 0)
-      klist = new KetaiList(this, bt.getPairedDeviceNames());
+    if (keyCode == KeyEvent.KEYCODE_BACK)
+    {
+      keyCode = 1;  // don't quit by default
+    }
   }
+  */
 }
 
 void onAccelerometerEvent(float x, float y, float z)
@@ -217,13 +213,8 @@ void onAccelerometerEvent(float x, float y, float z)
 void sendBluetoothData(float xPos)
 {
   println("send xPos "+xPos+"isConfiguring "+isConfiguring+"\n");
-  /* safe
-  byte[] b = {1,2,3,4};
-  bt.broadcast(b);
-  */
   if (isConfiguring)
     return;
-
   //send data to everyone
   //  we could send to a specific device through
   //   the writeToDevice(String _devName, byte[] data)
@@ -254,10 +245,7 @@ void onBluetoothDataEvent(String who, byte[] data)
     {
       if (m.checkTypetag("f"))
       {
-        xPos = m.get(0).floatValue();
-        println("\n"+xPos);
-        //get xPos for enemy bullets
-        //remoteMouse.x = m.get(0).intValue();
+        xPos = map(m.get(0).floatValue(),0,500,0,width);
         bullets = (Bullet[]) append(bullets,new Bullet(new PVector(xPos,0),new PVector(0,height*0.02)));
       }
     }
