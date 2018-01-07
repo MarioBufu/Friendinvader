@@ -1,10 +1,13 @@
 import ketai.sensors.*;
 import java.util.Arrays;
+
 import android.content.Intent;
 import android.os.Bundle;
+
 import ketai.net.bluetooth.*;
 import ketai.ui.*;
 import ketai.net.*;
+
 import oscP5.*;
 
 KetaiBluetooth bt;
@@ -18,7 +21,7 @@ PVector acc;
 Player p;
 Bullet[] bullets = new Bullet[0];
 //Bullet[] myBullets = new Bullet[0];
-Button btButton,dodgeButton,backButton,btConnect,btDiscover,btListPaired;
+Button btButton,dodgeButton,backButton,btConnect,btDiscover,btListPaired,btStatus;
 
 
 boolean menu = true;
@@ -27,14 +30,31 @@ boolean btConnected = false;
 
 int countFrame = 0;
 
+
+//********************************************************************
+// The following code is required to enable bluetooth at startup.
+//********************************************************************
+void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  bt = new KetaiBluetooth(this);
+}
+
+void onActivityResult(int requestCode, int resultCode, Intent data) {
+  bt.onActivityResult(requestCode, resultCode, data);
+}
+
+//********************************************************************
+
+
 void setup()
 {  
   sensor = new KetaiSensor(this);
-  bt = new KetaiBluetooth(this);
   sensor.start();
   orientation(LANDSCAPE);
   p = new Player();
   acc = new PVector(0,0);
+  
+  textSize(24);
   
   // ingame button
   backButton = new Button(0,height*0.1,"Back");
@@ -45,8 +65,9 @@ void setup()
   
   //bt menu
   btDiscover = new Button(width * 0.1 ,height * 0.2,"Discover");
-  btListPaired = new Button(width * 0.1 ,height * 0.4,"List paired devices");
-  btConnect = new Button(width * 0.1 ,height * 0.55,"Connect");
+  btListPaired = new Button(width * 0.1 ,height * 0.35,"List paired devices");
+  btConnect = new Button(width * 0.1 ,height * 0.50,"Connect");
+  btStatus = new Button(width * 0.1,height * 0.65,"Status");
   
 }
 
@@ -60,6 +81,7 @@ void draw()
       btDiscover.drawButton();
       btListPaired.drawButton();
       btConnect.drawButton();
+      btStatus.drawButton();
       backButton.drawButton();
       if(btConnected)
       {
@@ -104,7 +126,7 @@ void mousePressed()
   {
     if(btMenu)
     {
-      isConfiguring = true;
+      //isConfiguring = true;
       if(btDiscover.buttonClicked(mouseX,mouseY))
       {
         bt.discoverDevices();
@@ -116,7 +138,13 @@ void mousePressed()
           klist = new KetaiList(this, bt.getDiscoveredDeviceNames());
         else if (bt.getPairedDeviceNames().size() > 0)
           klist = new KetaiList(this, bt.getPairedDeviceNames());
+        isConfiguring = false;
       }// connect
+      else if(btStatus.buttonClicked(mouseX,mouseY))
+      {
+        text(getBluetoothInformation(),0,height * 0.7);
+        println("\n\n"+getBluetoothInformation() + "\n");
+      }// status
       else if(backButton.buttonClicked(mouseX,mouseY))
       {
         btMenu = false;
@@ -186,19 +214,13 @@ void onAccelerometerEvent(float x, float y, float z)
   acc.z = z;
 }
 
-void onCreate(Bundle savedInstanceState) {
-  super.onCreate(savedInstanceState);
-  bt = new KetaiBluetooth(this);
-}
-
-void onActivityResult(int requestCode, int resultCode, Intent data) {
-  bt.onActivityResult(requestCode, resultCode, data);
-}
-
-void sendBluetoothData(int xPos)
+void sendBluetoothData(float xPos)
 {
-  println("send xPos "+xPos+"\n");
-  println(getBluetoothInformation());
+  println("send xPos "+xPos+"isConfiguring "+isConfiguring+"\n");
+  /* safe
+  byte[] b = {1,2,3,4};
+  bt.broadcast(b);
+  */
   if (isConfiguring)
     return;
 
@@ -209,31 +231,38 @@ void sendBluetoothData(int xPos)
   OscMessage m = new OscMessage("/remoteMouse/");
   m.add(xPos);
   
-  bt.writeToDeviceName(selectedDevice,m.getBytes());
+  println("name "+selectedDevice);
+  //bt.writeToDeviceName(selectedDevice,m.getBytes());
   bt.broadcast(m.getBytes());
+  
 }
 
 //Call back method to manage data received
 void onBluetoothDataEvent(String who, byte[] data)
 {
+  float xPos = 0.0;
   println("\n\nrecieved data from" + who + " "+data);
   if (isConfiguring)
     return;
   //KetaiOSCMessage is the same as OscMessage
   //   but allows construction by byte array
+  
   KetaiOSCMessage m = new KetaiOSCMessage(data);
   if (m.isValid())
   {
     if (m.checkAddrPattern("/remoteMouse/"))
     {
-      if (m.checkTypetag("i"))
+      if (m.checkTypetag("f"))
       {
+        xPos = m.get(0).floatValue();
+        println("\n"+xPos);
         //get xPos for enemy bullets
         //remoteMouse.x = m.get(0).intValue();
-        bullets = (Bullet[]) append(bullets,new Bullet(new PVector(m.get(0).intValue(),0),new PVector(0,height*0.02)));
+        bullets = (Bullet[]) append(bullets,new Bullet(new PVector(xPos,0),new PVector(0,height*0.02)));
       }
     }
   }
+  
 }
 
 
