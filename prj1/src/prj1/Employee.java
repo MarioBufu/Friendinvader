@@ -1,5 +1,6 @@
 package prj1;
 
+import java.sql.Date;
 import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cascade;
@@ -22,16 +23,16 @@ class Employee {
 	private String position;
 	
 	@Column(name = "date_of_employment")
-	private String date_of_employment;
+	private Date date_of_employment;
 	
-	@OneToMany(mappedBy = "employee")
+	@OneToMany(mappedBy="employee")
 	@Cascade(CascadeType.ALL)
 	private Set<Course> courses;
 
 	public Employee() {
 	}
 
-	public Employee(int id, String name, String firm, String position, String date_of_employment) {
+	public Employee(int id, String name, String firm, String position, Date date_of_employment) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -72,11 +73,11 @@ class Employee {
 		this.position = position;
 	}
 
-	public String getDate_of_employment() {
+	public Date getDate_of_employment() {
 		return date_of_employment;
 	}
 
-	public void setDate_of_employment(String date_of_employment) {
+	public void setDate_of_employment(Date date_of_employment) {
 		this.date_of_employment = date_of_employment;
 	}
 

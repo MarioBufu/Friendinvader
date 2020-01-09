@@ -104,4 +104,14 @@ public class Course {
 		return "Course [id=" + id + ", name=" + name + ", number_of_hours=" + number_of_hours + ", value=" + value
 				+ ", graduation_diploma=" + graduation_diploma + ", year=" + year + ", employee=" + employee + "]";
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Course) {
+			if(!(this.name.equals(((Course) o).getName())))
+				return false;
+			//if(this.number_of_hours == (Course) o).getNumber_of_hours())
+		}
+		return true;
+	}
 }
