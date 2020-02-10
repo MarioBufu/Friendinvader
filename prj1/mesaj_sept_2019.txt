@@ -1,0 +1,70 @@
+Dear students,
+
+This course aims: Gain an understanding on theoretical basics of multi-agent systems (MASs). Study the reasoning methods of intelligent agents, the distributed search techniques, the mono- and multi-agent planning, the coordination mechanisms, the negotiation for accomplishing contracts, the mechanism dedicated to communication between agents. Acquire competence and knowledge in the development of hardware and software applications for automotive systems using actual informatics technologies. Get knowledge in analytical and numerical approaches to the analysis and implementation of MASs. Get experience in MAS design. Learn applications of the multi-agent technology to automation and informatics. Get research skills in MASs.
+
+The lectures are organized in nine chapters:
+1. Multi-agent Problem Formulation: Utility; Markov decision processes; Planning; Applications - 8 hours. (supporting NetLogo code examples: valueiter.nlogo)
+2. Distributed Constraints: Distributed constraint satisfaction; Optimization subject to distributed constraints; Applications - 4 hours. (supporting NetLogo code examples: DistributedBreakout_graphColoring.nlogo, AsynchronousBacktracking_graphColoring.nlogo, AsynchronousWeakCommitment_graphColoring.nlogo)
+3. Standard and Extended Form Games: Games in normal form; Games in extended form; Finding a solution; Applications - 4 hours. (supporting NetLogo code examples: coordination.nlogo)
+4. Characteristic Form Games and Coalition Formation: Solution concepts; Finding the optimal coalition structure; Applications - 4 hours.
+5. Learning in Multi-agent Systems: The machine learning problem; Cooperative learning; Repeated games; Stochastic games and reinforcement learning; General theories for learning agents; Collective intelligence; Applications - 6 hours. (supporting NetLogo code examples: coin.nlogo, qlearning.nlogo, evolutionaryGameTheory.nlogo)
+6. Negotiation: The bargaining problem; Monotonic concession protocol; Negotiation as distributed search and ad-hoc negotiation strategies; The task allocation problem; Complex deals; Argumentation-based negotiation; Negotiation networks; Applications - 4 hours.
+7. Auctions: Valuations; Simple auctions; Combinatorial auctions; Applications - 4 hours. (supporting NetLogo code examples: CombinatorialAuctions.nlogo)
+8. Voting and Mechanism Design: The voting problem and possible solutions; Mechanism design problem and distributed one; Applications - 4 hours. (supporting NetLogo code examples: Voting.nlogo) 
+9. Coordination Using Goal and Plan Hierarchies: TAEMS; Generalized Partial Global Planning; Applications - 4 hours. (supporting NetLogo code examples: coordination.nlogo, fireflies.nlogo)
+
+The supporting NetLogo examples are to be found both in NetLogo’s Model Library and they are also provided in ‘NetLogo codes’ folder (attached archive) under the corresponding chapter folder.
+
+With this regard, please use the 'mas.pdf' file attached to this message. It is taken from José M. Vidal's textbook at http://jmvidal.cse.sc.edu/. It is good to have the lecture notes printed in order to address questions that might clarify aspects of interest, and you can also use the updated documentation at http://jmvidal.cse.sc.edu/mdl/index.html. Two other outstanding resources on MAS are:
+1) An Introduction to Multi-Agent Systems, by Michael Woolridge, John Wiley & Sons, 2002.
+2) Multiagent Systems: Algorithmic, Game-Theoretic, and Logical Foundations, by Yoav Shoham and Kevin Leyton-Brown, Cambridge University Press, 2009, available for download here http://www.masfoundations.org/download.html
+
+The project is focused on NetLogo (http://ccl.northwestern.edu/netlogo/) which is used for complex systems’s modeling. You may use the 'NetLogo User Manual.pdf' file attached to his message and the updated documentation at http://ccl.northwestern.edu/netlogo/.
+In the provided folder “../NetLogo codes/IntroductoryMotivatingExamples” you will also find some .nlogo files with popular examples of real-world applications of MASs, their description is included within the models. Please note that NetLogo has some dynamics with each new version and backwards-compatibility is not ensured with all the models and may require slight code revision. Feel free to try NetLogo software versions 4, 5 an 6.
+
+You will work with me both in the framework of the lectures and in the framework of the project.
+
+We aim at solving two tasks (Part 1 and Part 2) for the Multi-Agent Systems course. The exam will consist of both of these two parts, Part 1 and Part 2.
+
+Part 1. You are to study one of the 9 course chapters assigned to you from the above mentioned list and to make an approx. 15-minute presentation making use of Power Point in MS Office 2003 having the equations edited with Microsoft Equation Editor 3.0, so you should turn in a ppt file and not a pptx one. You may use the 'mas.pdf' file as a primary reference material to study the assigned subject or you may also use other sources of information (among them, the other textbooks, or other texts or papers or webpages, including the web user manual at http://ccl.northwestern.edu/netlogo/docs/) to provide for an appropriate background and further details for the points of the assigned subject. You are to turn in a hard copy (printed and saved on CD) of your Power Point slides before or at the time of your presentation. Please contact me to assign you the chapter to be studied.
+
+Part 2. You are to design and implement in NetLogo (if possible, but other languages may be used as well, such as Matlab,
+Java, C#, Python, etc.) (at least) one application of multi-agent systems. Treating an application in the area of automotive
+systems will be <highly> appreciated. You can employ several sources of information (textbooks or texts or papers or webpages)
+to provide an appropriate background for the points of the application chosen by you. In this context you may use recent
+papers (2019 included) dealing with theory and applications of MASs chosen by you from well-acknowledged journals.
+Attractive examples (including the NetLogo Models Library) are given at http://ccl.northwestern.edu/netlogo/ and at
+http://jmvidal.cse.sc.edu/mdl/index.html, and they can be adapted to your specific application(s). The shortest path is to
+start with studying NetLogo examples concerning the subject from Part 1 that you have to study anyways. Then you can try to
+change/add/remove features of you own and <document> the change in the simulated behavior. 
+
+For Part 2, team-working is accepted (maximum 3 students), however the complexity of the application has to be proportional to the number of team members. Please contact me immediately after the choice of the application (in part 2) in order to avoid overlaps and to get the OK to start working.
+The final deliverables of the project in the Part 2 (project) should be:
+- The application treating problems of Multi-Agent Systems (code, source files, executables, scripts, etc.),
+- An "user manual" type of document of the application where the minimum list of aspects to be treated are:
+	a) The motivation of the studied problem and why it has to be solved using MAS theoretical concepts.
+	b) The application architecture details, with print screens of the interface and explained sample code.
+	c) Simulations results concerning the system's behavior in several regimes (how it depends, for example, on the parameters, number of agents, quality of the solution, etc.)
+	d) Discussions of the observed results and conclusions.
+	e) A "References" Section.
+PS: The documentation will be edited to be MS Office 2003 compatible, having the equations edited with MS Equation Editor 3.0.
+
+You are to present the results in project manner and to turn in a hard copy (printed and saved on CD) of your material before or at the time of your exam presentation.
+
+Once you have finalized the two tasks (part 1 and part 2) please contact me (either individually or in groups) to schedule the exam presentations. Concluding, you will have to turn in the following results of part 1 and part 2 to be discussed during the exam:
+ - a CD that contains the .ppt file of part 1 + files with documentation (.doc) used in part 2 + the application itself,
+ - the printed versions of the .ppt corresponding to the studied chapter and the .doc corresponding to the documented application.
+
+Please do not hesitate to contact me for any problems regarding this course by e-mail. You may find me in room B-029 or in one of the B-018 or B-014 laboratories as well.
+
+Kind regards,
+Mircea-Bogdan Radac
+--------------------------------------
+Assist. prof. Mircea-Bogdan Radac, PhD
+Politehnica University of Timisoara
+Faculty of Automation and Computers  
+Department of Automation and Applied Informatics
+Bd. V. Parvan 2
+RO-300223 Timisoara
+Romania
+E-mail: mircea.radac@aut.upt.ro, nadgob.cadar@gmail.com
